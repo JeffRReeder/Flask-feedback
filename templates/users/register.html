@@ -2,8 +2,21 @@
 {% block page_title %}Feedback{% endblock %}
 
 {% block content %}
-<h1>Register here</h1>
-<form>
+<h1 class="display-1">Sign Up</h1>
+<p class="lead">Register to join our application</p>
+<form method="POST">
 
+    {{ form.hidden_tag() }}
+    {% for field in form if field.widget.input_type != 'hidden' %}
+    <p>
+        {{ field.label }}
+        {{ field (class_="form-control") }}
+
+        {% for error in field.errors %}
+        <span class="form-text text-danger">{{ error }}</span>
+        {% endfor %}    
+    </p>
+    {% endfor %}
+    <button class="btn btn-success">Register</button>
 </form>
 {% endblock %}
