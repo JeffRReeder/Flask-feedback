@@ -5,8 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block page_title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
+    <nav class="navbar navbar-light bg-primary justify-content-between">
+        <div class="container">
+            <a href="/" class="navbar-brand text-light">Feedback</a>
+            <ul class="nav navbar-nav flex-row float-right">
+                <li class="nav-item">
+                    <a class="nav-link pr-3 text-light" href="/login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link pr-3 text-light" href="/register">Sign Up</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
     {% block content %}
     <!-- dynamic data goes here-->
     {% endblock %}
