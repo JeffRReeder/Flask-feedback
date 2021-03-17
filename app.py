@@ -3,7 +3,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
 from models import db, connect_db, User
-from forms import RegisterForm
+from forms import RegisterForm, LoginForm
 
 app = Flask(__name__)
 
@@ -32,13 +32,38 @@ def register_user():
         email = form.email.data
         first_name = form.first_name.data
         last_name = form.last_name.data
+
         new_user = User.register(username,password,email,first_name,last_name)
 
-        db.session.add(new_user)
         db.session.commit()
         session['username'] = new_user.username
         flash("Welcome! Successfully created your account")
-        return redirect('')
+
+        return redirect(f"/users/{new_user.username}")
 
     else:
         return render_template('/users/register.html', form=form)
+
+@app.route('/users/<username>')
+def show_user(username):
+    """Show logged in users"""
+
+    user = User.query.get(username)
+    return render_template('users/show.html', user=user)
+
+
+@app.route('/login', methods=["GET", "POST"])
+def login_user():
+
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+
+        user = User.authenticate(username, password)
+        if user:
+            flash(f"Welcome back, {user.username}!", "primary")
+            return "login success"
+        else:
+            form.username.errors = ['Invalid username/password']
+    return render_template('login.html', form=form)
