@@ -6,14 +6,37 @@
 
 <div class="row">
     <div class="col-sm-10">
-        <h2 class="mt-4">Hello {{user.first_name}} - {{user.last_name}}</h2>
+        <h2 class="mt-4">Feedback</h2>
         <ul>
-            <li>username: {{user.username}}</li>
-            <li>email: {{user.email}}</li>
-            <li>First Name: {{user.first_name}}</li>
-            <li>Last Name: {{user.last_name}}</li>
+            {% for feedback in user.feedback %}
+            <p>{{ feedback.title }}</p>
+            <small>{{ feedback.content }}</small>
+
+            <form>
+                {{ form.hidden_tag() }}
+                <button class="btn btn-primary"
+                    formmethod="GET" formaction="/feedback/{{ feedback.id }}/update">
+                Edit</button>
+
+                <button class="btn btn-danger"
+                    formmethod="POST" formaction="/feedback/{{ feedback.id }}/delete">
+                Delete</button>
+            </form>
+
+            {% endfor %}
         </ul>
     </div>
     
+    <p>
+        <a class="btn btn-primary" href="/users/{{user.username}}/feedback/new">Add Feedback</a>
+    </p>
+
+    <form>
+        <button class="btn btn-danger btn-sm"
+                formaction="/users/{{ user.username }}/delete"
+                formmethod="POST">
+            Delete User
+        </button>
+    </form>
 </div>
 {% endblock %}
